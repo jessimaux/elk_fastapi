@@ -1,0 +1,14 @@
+startup
+home welcome
+startup
+shutdown
+2023-11-25 21:35:52,701 - root - INFO - startup
+2023-11-25 20:43:30,683 - root - INFO - startup
+2023-11-25 20:44:23,310 - routers.home - INFO - test
+2023-11-25 20:44:24,476 - routers.home - INFO - test
+2023-11-25 20:45:26,397 - root - INFO - shutdown
+2023-11-25 20:45:53,017 - root - INFO - startup
+2023-11-25 20:46:02,146 - root - INFO - shutdown
+2023-11-25 20:46:35,496 - root - INFO - startup
+2023-11-25 20:47:38,795 - routers.home - INFO - test
+2023-11-25 20:48:09,144 - root - INFO - shutdown

@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:8.11.1"
+    container_name: elasticsearch
+    ports: 
+      - "9200:9200"
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: password
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.1
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: Z3gbFHAekvnVyouwzMMO
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    build: 
+      context: ./filebeat
+    container_name: filebeat
+    volumes:
+      - ./app/logs:/src/logs
+    depends_on:
+      - elasticsearch
+      - kibana
+
+  app:
+    container_name: app
+    build: 
+      context: ./app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/logs:/src/logs
+
+
+volumes:
+  elasticsearch_data:
+    driver: local
